@@ -1,0 +1,27 @@
+{
+  "name": "sportifik-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "postinstall": "./node_modules/bower/bin/bower install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryanjlee/sportifik-project.git"
+  },
+  "author": "Ryan Lee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryanjlee/sportifik-project/issues"
+  },
+  "homepage": "https://github.com/ryanjlee/sportifik-project",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "bower": "^1.5.2",
+    "express": "^4.13.3",
+    "mongodb": "^2.0.42",
+    "mongoose": "^4.1.5"
+  }
+}

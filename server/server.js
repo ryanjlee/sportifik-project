@@ -8,76 +8,58 @@ var mongoose = require('mongoose');
 app.listen(process.env.PORT || 3000);
 
 app.use('/', express.static(path.join(__dirname, '/../client')));
-app.use('/bower_components',  express.static(__dirname + '/../bower_components'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-mongoose.connect('mongodb://root:happyday123@apollo.modulusmongo.net:27017/xi8hiHih');
 
+// Database connection
+mongoose.connect('mongodb://sport-admin:sport123@ds041673.mongolab.com:41673/sport-project');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function (callback) {
   console.log('Connected to database');
 });
 
+// Mongoose Schema for DB
 var ListingSchema = new mongoose.Schema({
-  _id: {
+  id: {
+    type: Number
+  },
+  name: {
     type: String
   },
-  body: {
+  image: {
     type: String
   },
-  type: {
+  gender: {
     type: String
   },
-  replyUrl: {
-    type: String
-  },
-  url: {
-    type: String
-  },
-  title: {
-    type: String
-  },
-  price: {
-    type: String
-  },
-  region: {
+  birthday: {
     type: String
   },
   location: {
     type: String
   },
-  hasPic: {
-    type: String
-  },
-  date: {
-    type: String
-  },
-  id: {
-    type: String
-  },
-  __v: {
+  bio: {
     type: String
   }
 });
+var Profile = mongoose.model('profile', ListingSchema);
 
-var Listing = mongoose.model('newclscrape', ListingSchema);
 
-app.get('/listings.json', function (req, res) {
-  var page = +req.query.page;
-  var size = +req.query.pageSize;
-  var sortObj = {}
-  sortObj[req.query.field] = +req.query.order;
+// Handle request for data
+app.get('/Data.json', function(req, res) {
+  // fs.readFile('server/Data.json', function(err, data) {
+  //   res.setHeader('Cache-Control', 'no-cache');
+  //   res.json(JSON.parse(data));
+  // });
 
-  Listing.find({}, function (err, listing) {
+  Profile.find({}, function (err, data) {
     if (err) return console.log(err);
   })
-  .skip(page * size)
-  .limit(size)
-  .sort(sortObj)
-  .exec(function (err, listing) {
-    if (err) console.log(err);
-    res.send(listing);
-  })
+  .sort({ name: 1 })
+  .exec(function (err, data) {
+    if (err) return console.log(err);
+    res.send(data);
+  });
 });
